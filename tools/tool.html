@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markmix Archive Extractor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset and Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+      margin-bottom: 30px;
+    }
+
+    .header {
+      margin-bottom: 25px;
+    }
+
+    .icon {
+      font-size: 3rem;
+      color: #1f4037;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #1f4037;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #1f4037;
+      margin-bottom: 15px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .upload-area {
+      border: 2px dashed #99f2c8;
+      border-radius: 12px;
+      padding: 40px 20px;
+      margin: 20px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upload-area:hover {
+      border-color: #1f4037;
+      background: rgba(153, 242, 200, 0.1);
+    }
+
+    .upload-icon {
+      font-size: 2.5rem;
+      color: #1f4037;
+      margin-bottom: 15px;
+    }
+
+    .upload-text {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 0;
+    }
+
+    input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-info {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      color: #1f4037;
+      font-weight: 500;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    button {
+      background: #1f4037;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: #99f2c8;
+      color: #1f4037;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    button i {
+      font-size: 1rem;
+    }
+
+    .progress-container {
+      width: 100%;
+      background: #f0f0f0;
+      border-radius: 8px;
+      height: 10px;
+      margin: 20px 0;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #1f4037, #99f2c8);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      margin-top: 5px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .file-system-container {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 25px;
+      max-width: 1000px;
+      width: 100%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease-in-out;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .file-system-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      font-size: 0.95rem;
+    }
+
+    .breadcrumb-item {
+      color: #1f4037;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .breadcrumb-item:hover:not(.active) {
+      background: rgba(31, 64, 55, 0.1);
+    }
+
+    .breadcrumb-item.active {
+      background: #1f4037;
+      color: white;
+    }
+
+    .breadcrumb-separator {
+      color: #999;
+    }
+
+    .file-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .file-system-view {
+      display: flex;
+      gap: 20px;
+    }
+
+    .file-system-sidebar {
+      width: 250px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 15px;
+      height: 500px;
+      overflow-y: auto;
+    }
+
+    .tree-header {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1f4037;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .tree-container {
+      font-size: 0.9rem;
+    }
+
+    .tree-folder {
+      margin-left: 15px;
+      cursor: pointer;
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .tree-folder i {
+      margin-right: 8px;
+      color: #1f4037;
+      width: 16px;
+    }
+
+    .tree-file {
+      margin-left: 30px;
+      padding: 3px 0;
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .tree-file i {
+      margin-right: 8px;
+      color: #666;
+      width: 16px;
+    }
+
+    .file-system-content {
+      flex: 1;
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 15px;
+      height: 500px;
+      overflow-y: auto;
+    }
+
+    .file-list-header {
+      display: flex;
+      padding: 10px 15px;
+      background: #1f4037;
+      color: white;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .file-list-header-name {
+      flex: 3;
+    }
+
+    .file-list-header-size {
+      flex: 1;
+      text-align: right;
+      padding-right: 15px;
+    }
+
+    .file-list-header-modified {
+      flex: 2;
+      text-align: center;
+    }
+
+    .file-list-header-actions {
+      flex: 1;
+      text-align: center;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .file-item:hover {
+      transform: translateX(3px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .file-name {
+      flex: 3;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .file-size {
+      flex: 1;
+      text-align: right;
+      padding-right: 15px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .file-modified {
+      flex: 2;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .file-actions {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .file-action-btn {
+      background: none;
+      border: none;
+      color: #1f4037;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .file-action-btn:hover {
+      background: rgba(31, 64, 55, 0.1);
+    }
+
+    .file-icon {
+      color: #1f4037;
+      width: 20px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 40px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 0;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: #1f4037;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .footer-links a:hover {
+      color: #99f2c8;
+      text-decoration: underline;
+    }
+
+    .footer-copyright {
+      font-size: 0.85rem;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .footer-copyright a {
+      color: #1f4037;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-copyright a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-copyright i {
+      color: #e74c3c;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .file-system-view {
+        flex-direction: column;
+      }
+      
+      .file-system-sidebar {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+      }
+      
+      .file-system-content {
+        height: auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .file-list-header {
+        display: none;
+      }
+      
+      .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+      
+      .file-name, .file-size, .file-modified, .file-actions {
+        width: 100%;
+        text-align: left;
+        padding-right: 0;
+      }
+      
+      .file-actions {
+        justify-content: flex-start;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+        margin-top: 5px;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <i class="fas fa-file-archive icon"></i>
+      <h1>Markmix Archive Extractor</h1>
+      <p>Extract files from ZIP, RAR, 7Z, TAR, and more. Browse extracted files like a file system.</p>
+    </div>
+    
+    <div class="upload-area" id="dropArea">
+      <i class="fas fa-cloud-upload-alt upload-icon"></i>
+      <p class="upload-text">Drag & drop your archive here or click to browse</p>
+      <input type="file" id="fileInput" accept=".zip,.rar,.7z,.tar,.gz,.bz2,.xz,.iso,.cab,.arj,.lzh,.zipx" />
+      <div class="file-info" id="fileInfo"></div>
+    </div>
+    
+    <div class="controls">
+      <button id="extractButton" disabled>
+        <i class="fas fa-file-export"></i> Extract Files
+      </button>
+      <button id="browseButton" disabled>
+        <i class="fas fa-folder-open"></i> Browse Files
+      </button>
+      <button id="clearButton">
+        <i class="fas fa-trash-alt"></i> Clear
+      </button>
+    </div>
+    
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+  </div>
+
+  <div class="file-system-container" id="fileSystemContainer">
+    <div class="file-system-header">
+      <div class="breadcrumb" id="breadcrumb">
+        <span class="breadcrumb-item active" data-path="/">Root</span>
+      </div>
+      <div class="file-actions">
+        <button id="downloadAll">
+          <i class="fas fa-download"></i> Download All
+        </button>
+        <div class="file-count" id="fileCount">0 items</div>
+      </div>
+    </div>
+    
+    <div class="file-system-view" id="fileSystemView">
+      <div class="file-system-sidebar" id="fileTree">
+        <div class="tree-header">File Tree</div>
+        <div class="tree-container" id="treeContainer"></div>
+      </div>
+      
+      <div class="file-system-content" id="fileSystemContent">
+        <div class="file-list-header">
+          <div class="file-list-header-name">Name</div>
+          <div class="file-list-header-size">Size</div>
+          <div class="file-list-header-modified">Modified</div>
+          <div class="file-list-header-actions">Actions</div>
+        </div>
+        <div class="file-list" id="fileList"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="https://markmixstudios.com/about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="https://markmixstudios.com/p/contact.html"><i class="fas fa-envelope"></i> Contact</a>
+      </div>
+      <div class="footer-copyright">
+        Made with <i class="fas fa-heart"></i> by <a href="https://markmixstudios.com">Markmix Studios Limited</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // DOM Elements
+      const fileInput = document.getElementById("fileInput");
+      const extractButton = document.getElementById("extractButton");
+      const browseButton = document.getElementById("browseButton");
+      const clearButton = document.getElementById("clearButton");
+      const downloadAllButton = document.getElementById("downloadAll");
+      const fileInfo = document.getElementById("fileInfo");
+      const dropArea = document.getElementById("dropArea");
+      const progressContainer = document.getElementById("progressContainer");
+      const progressBar = document.getElementById("progressBar");
+      const progressText = document.getElementById("progressText");
+      const fileCount = document.getElementById("fileCount");
+      const fileSystemContainer = document.getElementById("fileSystemContainer");
+      const breadcrumb = document.getElementById("breadcrumb");
+      const treeContainer = document.getElementById("treeContainer");
+      const fileList = document.getElementById("fileList");
+      
+      // State variables
+      let archive = null;
+      let currentPath = "/";
+      let fileSystem = {};
+      let extractedFiles = [];
+      
+      // Supported formats
+      const supportedFormats = {
+        '.zip': 'ZIP Archive',
+        '.rar': 'RAR Archive', 
+        '.7z': '7-Zip Archive',
+        '.tar': 'TAR Archive',
+        '.gz': 'GZIP Compressed',
+        '.bz2': 'BZIP2 Compressed',
+        '.xz': 'XZ Compressed',
+        '.iso': 'ISO Disk Image',
+        '.cab': 'CAB Archive',
+        '.arj': 'ARJ Archive',
+        '.lzh': 'LZH Archive',
+        '.zipx': 'ZIPX Archive'
+      };
+      
+      // File type icons
+      const fileIcons = {
+        // Archive formats
+        '.zip': 'fa-file-archive',
+        '.rar': 'fa-file-archive',
+        '.7z': 'fa-file-archive',
+        '.tar': 'fa-file-archive',
+        '.gz': 'fa-file-archive',
+        '.bz2': 'fa-file-archive',
+        '.xz': 'fa-file-archive',
+        '.iso': 'fa-file-archive',
+        '.cab': 'fa-file-archive',
+        '.arj': 'fa-file-archive',
+        '.lzh': 'fa-file-archive',
+        '.zipx': 'fa-file-archive',
+        
+        // Document formats
+        '.txt': 'fa-file-alt',
+        '.pdf': 'fa-file-pdf',
+        '.doc': 'fa-file-word',
+        '.docx': 'fa-file-word',
+        '.xls': 'fa-file-excel',
+        '.xlsx': 'fa-file-excel',
+        '.ppt': 'fa-file-powerpoint',
+        '.pptx': 'fa-file-powerpoint',
+        '.csv': 'fa-file-csv',
+        
+        // Image formats
+        '.jpg': 'fa-file-image',
+        '.jpeg': 'fa-file-image',
+        '.png': 'fa-file-image',
+        '.gif': 'fa-file-image',
+        '.svg': 'fa-file-image',
+        '.bmp': 'fa-file-image',
+        '.webp': 'fa-file-image',
+        '.tiff': 'fa-file-image',
+        
+        // Audio formats
+        '.mp3': 'fa-file-audio',
+        '.wav': 'fa-file-audio',
+        '.ogg': 'fa-file-audio',
+        '.flac': 'fa-file-audio',
+        '.aac': 'fa-file-audio',
+        
+        // Video formats
+        '.mp4': 'fa-file-video',
+        '.mov': 'fa-file-video',
+        '.avi': 'fa-file-video',
+        '.mkv': 'fa-file-video',
+        '.wmv': 'fa-file-video',
+        '.flv': 'fa-file-video',
+        
+        // Code formats
+        '.html': 'fa-file-code',
+        '.css': 'fa-file-code',
+        '.js': 'fa-file-code',
+        '.json': 'fa-file-code',
+        '.xml': 'fa-file-code',
+        '.php': 'fa-file-code',
+        '.py': 'fa-file-code',
+        '.java': 'fa-file-code',
+        '.cpp': 'fa-file-code',
+        '.h': 'fa-file-code',
+        
+        // System formats
+        '.exe': 'fa-cog',
+        '.dll': 'fa-cog',
+        '.sys': 'fa-cog',
+        '.ini': 'fa-cog',
+        '.bat': 'fa-terminal',
+        '.sh': 'fa-terminal',
+        
+        // Default
+        'default': 'fa-file'
+      };
+      
+      // Initialize the application
+      function init() {
+        setupEventListeners();
+      }
+      
+      // Set up event listeners
+      function setupEventListeners() {
+        // File input change
+        fileInput.addEventListener("change", handleFileSelect);
+        
+        // Drag and drop
+        dropArea.addEventListener("dragover", handleDragOver);
+        dropArea.addEventListener("dragleave", handleDragLeave);
+        dropArea.addEventListener("drop", handleDrop);
+        
+        // Buttons
+        extractButton.addEventListener("click", extractArchive);
+        browseButton.addEventListener("click", browseFiles);
+        clearButton.addEventListener("click", clearAll);
+        downloadAllButton.addEventListener("click", downloadAllFiles);
+        
+        // Breadcrumb navigation
+        breadcrumb.addEventListener("click", handleBreadcrumbClick);
+      }
+      
+      // Handle file selection
+      function handleFileSelect(event) {
+        const file = event.target.files[0];
+        processSelectedFile(file);
+      }
+      
+      // Handle drag over
+      function handleDragOver(e) {
+        e.preventDefault();
+        dropArea.classList.add("dragover");
+        dropArea.style.borderColor = "#1f4037";
+        dropArea.style.backgroundColor = "rgba(153, 242, 200, 0.2)";
+      }
+      
+      // Handle drag leave
+      function handleDragLeave() {
+        dropArea.classList.remove("dragover");
+        dropArea.style.borderColor = "#99f2c8";
+        dropArea.style.backgroundColor = "";
+      }
+      
+      // Handle drop
+      function handleDrop(e) {
+        e.preventDefault();
+        handleDragLeave();
+        
+        const file = e.dataTransfer.files[0];
+        fileInput.files = e.dataTransfer.files;
+        processSelectedFile(file);
+      }
+      
+      // Process selected file
+      function processSelectedFile(file) {
+        if (!file) return;
+        
+        const fileExt = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+        
+        if (supportedFormats[fileExt]) {
+          archive = file;
+          extractButton.disabled = false;
+          browseButton.disabled = false;
+          updateFileInfo(file);
+        } else {
+          alert(`Unsupported file format. Please upload one of these: ${Object.keys(supportedFormats).join(", ")}`);
+        }
+      }
+      
+      // Update file info display
+      function updateFileInfo(file) {
+        const fileSize = formatFileSize(file.size);
+        const fileExt = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+        const fileType = supportedFormats[fileExt] || "Unknown";
+        
+        fileInfo.innerHTML = `
+          <p><strong>File:</strong> ${file.name}</p>
+          <p><strong>Type:</strong> ${fileType}</p>
+          <p><strong>Size:</strong> ${fileSize}</p>
+        `;
+      }
+      
+      // Format file size
+      function formatFileSize(bytes) {
+        if (bytes === 0) return "0 Bytes";
+        const k = 1024;
+        const sizes = ["Bytes", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+      }
+      
+      // Extract archive
+      async function extractArchive() {
+        if (!archive) return;
+        
+        try {
+          // Reset UI
+          fileSystem = {};
+          extractedFiles = [];
+          currentPath = "/";
+          showProgress(true);
+          
+          // Get file extension
+          const fileExt = archive.name.substring(archive.name.lastIndexOf(".")).toLowerCase();
+          
+          // Currently only handling ZIP files with JSZip
+          if (fileExt === '.zip') {
+            await extractZip();
+          } else {
+            alert(`Currently only ZIP files are fully supported in this demo. ${fileExt} support coming soon!`);
+            return;
+          }
+          
+          // Build file system
+          buildFileSystem();
+          
+          // Update UI
+          updateBreadcrumb();
+          renderFileTree();
+          renderFileList(currentPath);
+          fileSystemContainer.style.display = "block";
+          fileCount.textContent = `${Object.keys(extractedFiles).length} items`;
+          
+        } catch (error) {
+          console.error("Extraction error:", error);
+          alert("Error extracting archive: " + error.message);
+        } finally {
+          showProgress(false);
+        }
+      }
+      
+      // Extract ZIP archive
+      async function extractZip() {
+        const zip = new JSZip();
+        const contents = await zip.loadAsync(archive);
+        
+        let fileIndex = 0;
+        const totalFiles = Object.keys(contents.files).length;
+        
+        for (const [path, fileData] of Object.entries(contents.files)) {
+          if (fileData.dir) continue;
+          
+          try {
+            const fileContent = await zip.file(path).async("blob");
+            const fileUrl = URL.createObjectURL(fileContent);
+            
+            extractedFiles.push({
+              path: path,
+              name: path.split("/").pop(),
+              url: fileUrl,
+              size: fileContent.size,
+              type: fileContent.type || "application/octet-stream",
+              lastModified: fileData.date || new Date()
+            });
+            
+            updateProgress(++fileIndex, totalFiles);
+          } catch (error) {
+            console.error(`Error processing file ${path}:`, error);
+          }
+        }
+      }
+      
+      // Build hierarchical file system structure
+      function buildFileSystem() {
+        fileSystem = { name: "Root", path: "/", type: "directory", children: [] };
+        
+        extractedFiles.forEach(file => {
+          const pathParts = file.path.split("/");
+          let currentLevel = fileSystem;
+          
+          for (let i = 0; i < pathParts.length - 1; i++) {
+            const part = pathParts[i];
+            if (!part) continue;
+            
+            let found = currentLevel.children.find(child => child.name === part);
+            
+            if (!found) {
+              found = {
+                name: part,
+                path: currentLevel.path + part + "/",
+                type: "directory",
+                children: []
+              };
+              currentLevel.children.push(found);
+            }
+            
+            currentLevel = found;
+          }
+          
+          const fileName = pathParts[pathParts.length - 1];
+          if (fileName) {
+            currentLevel.children.push({
+              name: fileName,
+              path: file.path,
+              type: "file",
+              size: file.size,
+              url: file.url,
+              lastModified: file.lastModified
+            });
+          }
+        });
+      }
+      
+      // Render file tree
+      function renderFileTree(node = fileSystem, level = 0) {
+        treeContainer.innerHTML = "";
+        renderTreeNodes(fileSystem, treeContainer, level);
+      }
+      
+      // Render tree nodes recursively
+      function renderTreeNodes(node, container, level) {
+        if (node.children && node.children.length > 0) {
+          node.children.forEach(child => {
+            const item = document.createElement("div");
+            item.className = child.type === "directory" ? "tree-folder" : "tree-file";
+            item.style.paddingLeft = `${level * 15}px`;
+            
+            const icon = document.createElement("i");
+            icon.className = `fas ${child.type === "directory" ? "fa-folder" : getFileIcon(child.name)}`;
+            
+            const name = document.createElement("span");
+            name.textContent = child.name;
+            
+            item.appendChild(icon);
+            item.appendChild(name);
+            
+            if (child.type === "directory") {
+              item.addEventListener("click", (e) => {
+                e.stopPropagation();
+                navigateToPath(child.path);
+              });
+            }
+            
+            container.appendChild(item);
+            
+            // Recursively render children if it's a directory
+            if (child.type === "directory" && child.children) {
+              renderTreeNodes(child, container, level + 1);
+            }
+          });
+        }
+      }
+      
+      // Render file list for current path
+      function renderFileList(path) {
+        fileList.innerHTML = "";
+        
+        // Find the current directory in the file system
+        const pathParts = path.split("/").filter(part => part);
+        let currentDir = fileSystem;
+        
+        for (const part of pathParts) {
+          const found = currentDir.children.find(child => child.name === part);
+          if (found && found.type === "directory") {
+            currentDir = found;
+          } else {
+            // Path not found, show empty
+            fileCount.textContent = "0 items";
+            return;
+          }
+        }
+        
+        // Add ".." parent directory link if not at root
+        if (path !== "/") {
+          const parentItem = document.createElement("div");
+          parentItem.className = "file-item";
+          parentItem.innerHTML = `
+            <div class="file-name">
+              <i class="fas fa-level-up-alt file-icon"></i>
+              <span>..</span>
+            </div>
+            <div class="file-size"></div>
+            <div class="file-modified"></div>
+            <div class="file-actions"></div>
+          `;
+          
+          parentItem.addEventListener("click", () => {
+            const parentPath = path.split("/").slice(0, -2).join("/") + "/";
+            navigateToPath(parentPath || "/");
+          });
+          
+          fileList.appendChild(parentItem);
+        }
+        
+        // Add files and directories
+        currentDir.children.forEach(item => {
+          const fileItem = document.createElement("div");
+          fileItem.className = "file-item";
+          
+          const icon = getFileIcon(item.name);
+          const size = item.type === "file" ? formatFileSize(item.size) : "";
+          const modified = item.lastModified ? item.lastModified.toLocaleDateString() : "";
+          
+          fileItem.innerHTML = `
+            <div class="file-name">
+              <i class="fas ${icon} file-icon"></i>
+              <span>${item.name}</span>
+            </div>
+            <div class="file-size">${size}</div>
+            <div class="file-modified">${modified}</div>
+            <div class="file-actions">
+              ${item.type === "file" ? `<button class="file-action-btn download-btn" data-url="${item.url}" data-name="${item.name}">
+                <i class="fas fa-download"></i>
+              </button>` : ''}
+            </div>
+          `;
+          
+          if (item.type === "directory") {
+            fileItem.addEventListener("click", () => {
+              navigateToPath(item.path);
+            });
+          }
+          
+          fileList.appendChild(fileItem);
+        });
+        
+        // Add event listeners to download buttons
+        document.querySelectorAll(".download-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            downloadFile(btn.dataset.url, btn.dataset.name);
+          });
+        });
+        
+        fileCount.textContent = `${currentDir.children.length} ${currentDir.children.length === 1 ? 'item' : 'items'}`;
+      }
+      
+      // Navigate to path
+      function navigateToPath(path) {
+        currentPath = path;
+        updateBreadcrumb();
+        renderFileList(path);
+      }
+      
+      // Update breadcrumb navigation
+      function updateBreadcrumb() {
+        breadcrumb.innerHTML = "";
+        
+        const parts = currentPath.split("/").filter(part => part);
+        let pathSoFar = "/";
+        
+        // Add root link
+        const rootItem = document.createElement("span");
+        rootItem.className = "breadcrumb-item" + (currentPath === "/" ? " active" : "");
+        rootItem.textContent = "Root";
+        rootItem.dataset.path = "/";
+        breadcrumb.appendChild(rootItem);
+        
+        // Add path parts
+        parts.forEach((part, index) => {
+          pathSoFar += part + "/";
+          
+          const separator = document.createElement("span");
+          separator.className = "breadcrumb-separator";
+          separator.textContent = " / ";
+          breadcrumb.appendChild(separator);
+          
+          const item = document.createElement("span");
+          item.className = "breadcrumb-item" + (index === parts.length - 1 ? " active" : "");
+          item.textContent = part;
+          item.dataset.path = pathSoFar;
+          breadcrumb.appendChild(item);
+        });
+      }
+      
+      // Handle breadcrumb click
+      function handleBreadcrumbClick(e) {
+        if (e.target.classList.contains("breadcrumb-item")) {
+          const path = e.target.dataset.path;
+          if (path !== currentPath) {
+            navigateToPath(path);
+          }
+        }
+      }
+      
+      // Get file icon
+      function getFileIcon(fileName) {
+        const extension = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+        return fileIcons[extension] || fileIcons['default'];
+      }
+      
+      // Download file
+      function downloadFile(url, fileName) {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        link.click();
+      }
+      
+      // Download all files
+      async function downloadAllFiles() {
+        if (extractedFiles.length === 0) {
+          alert("No files to download");
+          return;
+        }
+        
+        try {
+          showProgress(true);
+          const zip = new JSZip();
+          let addedFiles = 0;
+          
+          for (const file of extractedFiles) {
+            try {
+              const response = await fetch(file.url);
+              const blob = await response.blob();
+              zip.file(file.path, blob);
+              
+              addedFiles++;
+              updateProgress(addedFiles, extractedFiles.length);
+            } catch (error) {
+              console.error(`Error adding ${file.path} to zip:`, error);
+            }
+          }
+          
+          const content = await zip.generateAsync({ type: "blob" }, (metadata) => {
+            updateProgress(metadata.currentFile, metadata.totalFiles);
+          });
+          
+          saveAs(content, "extracted_files.zip");
+        } catch (error) {
+          console.error("Error creating zip file:", error);
+          alert("Error creating zip file: " + error.message);
+        } finally {
+          showProgress(false);
+        }
+      }
+      
+      // Browse files
+      function browseFiles() {
+        if (!archive) return;
+        
+        fileSystemContainer.style.display = "block";
+        if (extractedFiles.length === 0) {
+          alert("Please extract files first");
+          extractArchive();
+        } else {
+          navigateToPath(currentPath);
+        }
+      }
+      
+      // Clear all
+      function clearAll() {
+        fileInput.value = "";
+        extractButton.disabled = true;
+        browseButton.disabled = true;
+        fileInfo.innerHTML = "";
+        fileSystemContainer.style.display = "none";
+        fileSystem = {};
+        extractedFiles = [];
+        currentPath = "/";
+        
+        // Clean up object URLs
+        extractedFiles.forEach(file => {
+          if (file.url) URL.revokeObjectURL(file.url);
+        });
+      }
+      
+      // Show/hide progress
+      function showProgress(show) {
+        progressContainer.style.display = show ? "block" : "none";
+        if (!show) {
+          progressBar.style.width = "0%";
+          progressText.textContent = "0%";
+        }
+      }
+      
+      // Update progress
+      function updateProgress(current, total) {
+        const percent = Math.floor((current / total) * 100);
+        progressBar.style.width = `${percent}%`;
+        progressText.textContent = `${percent}%`;
+      }
+      
+      // Initialize the app
+      init();
+    });
+  </script>
+</body>
+</html>

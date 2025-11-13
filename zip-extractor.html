@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Standard Favicons -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-16x16.png' rel='icon' sizes='16x16' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-32x32.png' rel='icon' sizes='32x32' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-96x96.png' rel='icon' sizes='96x96' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-192x192.png' rel='icon' sizes='192x192' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-512x512.png' rel='icon' sizes='512x512' type='image/png'/>
+
+  <!-- Apple Devices -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/apple-touch-icon.png' rel='apple-touch-icon' sizes='180x180'/>
+
+  <!-- Windows Tiles -->
+  <meta content='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-144.png' name='msapplication-TileImage'/>
+  <meta content='#ffffff' name='msapplication-TileColor'/>
+
+  <!-- Fallback .ico -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon.ico' rel='icon' type='image/x-icon'/>
+
+  <!-- Web Manifest for Progressive Web App Support -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/site.webmanifest' rel='manifest'/>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markmix File Extractor Tool</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="zip-extractor.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <i class="fas fa-file-archive icon"></i>
+      <h1>Markmix File Extractor</h1>
+      <p>Upload compressed files to extract their contents. Supports ZIP, RAR, 7Z, TAR, and more.</p>
+    </div>
+    
+    <div class="upload-area" id="dropArea">
+      <i class="fas fa-cloud-upload-alt upload-icon"></i>
+      <p class="upload-text">Drag & drop your file here or click to browse</p>
+      <input type="file" id="fileInput" accept=".zip,.rar,.7z,.tar,.gz,.bz2" />
+      <div class="file-info" id="fileInfo"></div>
+    </div>
+    
+    <div class="controls">
+      <button id="extractButton" disabled>
+        <i class="fas fa-file-export"></i> Extract Files
+      </button>
+      <button id="clearButton">
+        <i class="fas fa-trash-alt"></i> Clear
+      </button>
+    </div>
+    
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+      <div class="progress-text" id="progressText">0%</div>
+    </div>
+  </div>
+
+  <div class="results-container">
+    <div class="results-header">
+      <h2><i class="fas fa-folder-open"></i> Extracted Files</h2>
+      <div class="results-actions">
+        <button id="downloadAll">
+          <i class="fas fa-download"></i> Download All
+        </button>
+        <div class="file-count" id="fileCount">0 files</div>
+      </div>
+    </div>
+    <div class="file-container" id="fileList"></div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="https://markmixstudios.com/about"><i class="fas fa-info-circle"></i> About</a>
+        <a href="https://markmixstudios.com/p/contact.html"><i class="fas fa-envelope"></i> Contact</a>
+      </div>
+      <div class="footer-copyright">
+        Made with <i class="fas fa-heart"></i> by <a href="https://markmixstudios.com">Markmix Studios Limited</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fflate/0.7.4/fflate.min.js"></script>
+  <script src="zip-extractor.js"></script>
+</body>
+</html>

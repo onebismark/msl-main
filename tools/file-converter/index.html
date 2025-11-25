@@ -1,99 +1,73 @@
-<!doctype html>
-<html lang="eng">
-<head>
-    <!-- Standard Favicons -->
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-16x16.png' rel='icon' sizes='16x16' type='image/png'/>
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-32x32.png' rel='icon' sizes='32x32' type='image/png'/>
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-96x96.png' rel='icon' sizes='96x96' type='image/png'/>
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-192x192.png' rel='icon' sizes='192x192' type='image/png'/>
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-512x512.png' rel='icon' sizes='512x512' type='image/png'/>
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- Standard Favicons -->
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-16x16.png' rel='icon' sizes='16x16' type='image/png'/>
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-32x32.png' rel='icon' sizes='32x32' type='image/png'/>
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-96x96.png' rel='icon' sizes='96x96' type='image/png'/>
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-192x192.png' rel='icon' sizes='192x192' type='image/png'/>
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-512x512.png' rel='icon' sizes='512x512' type='image/png'/>
 
-    <!-- Apple Devices -->
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/apple-touch-icon.png' rel='apple-touch-icon' sizes='180x180'/>
+<!-- Apple Devices -->
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/apple-touch-icon.png' rel='apple-touch-icon' sizes='180x180'/>
 
-    <!-- Windows Tiles -->
-    <meta content='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-144.png' name='msapplication-TileImage'/>
-    <meta content='#ffffff' name='msapplication-TileColor'/>
+<!-- Windows Tiles -->
+<meta content='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-144.png' name='msapplication-TileImage'/>
+<meta content='#ffffff' name='msapplication-TileColor'/>
 
-    <!-- Fallback .ico -->
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon.ico' rel='icon' type='image/x-icon'/>
+<!-- Fallback .ico -->
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon.ico' rel='icon' type='image/x-icon'/>
 
-    <!-- Web Manifest for Progressive Web App Support -->
-    <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/site.webmanifest' rel='manifest'/>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Markmix Studios</title>
-    <meta name="author" content="Markmix Studios">
-    <meta name="description" content="Internet & IT Company">
-    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons@refs/heads/main/mstudios-150×150.webp">
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap');
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: black;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        main {
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-        }
-
-        h1 {
-            color: white;
-            margin: 0 0 20px 0;
-        }
-
-        h2 {
-            color: white;
-            font-style: italic;
-            margin: 0 0 30px 0;
-            font-size: 1em;
-        }
-
-        p {
-            margin: 10px 0;
-        }
-
-        a {
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-            padding: 5px 0;
-        }
-
-        a::after {
-            content: ' ›';
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<!-- Web Manifest for Progressive Web App Support -->
+<link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/site.webmanifest' rel='manifest'/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markmix File Converter Tool</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <main>
-        <h1>Markmix Studios Tools</h1>
-        
-        <p><a href="https://www.markmixstudios.com/tools/zip-extractor">Zip Extractor</a></p>
-        <p><a href="https://www.markmixstudios.com/tools/file-converter">File Converter</a></p>
-        <p><a href="https://www.markmixstudios.com/tools/age-calculator">Age Calculator</a></p>
-        <p><a href="https://www.markmixstudios.com">Website</a></p>
-        <p><a href="https://me.markmixstudios.com">Developer BioLink</a></p>
-    </main>
+  <div class="converter-container">
+    <h1>Markmix File Converter Tool</h1>
+    <div class="form-group">
+      <label for="fileName">File Name</label>
+      <input type="text" id="fileName" placeholder="Enter file name">
+    </div>
+    <div class="form-group">
+      <label for="fileContent">File Content</label>
+      <textarea id="fileContent" placeholder="Enter your content"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="format">Select Format</label>
+      <select id="format">
+        <option value="txt">TEXT</option>
+        <option value="docx">DOCX</option>
+        <option value="html">HTML</option>
+        <option value="css">CSS</option>
+        <option value="js">JS</option>
+        <option value="py">PYTHON</option>
+        <option value="json">JSON</option>
+        <option value="pdf">PDF</option>
+        <option value="zip">ZIP</option>
+      </select>
+    </div>
+    <button class="btn" onclick="convertFile()">Convert File</button>
+
+    <div class="result" id="result">
+      <p><strong>Converted File Name:</strong> <span id="convertedFile"></span></p>
+      <a id="downloadLink" class="download-link" href="#" download>Download Converted File</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>
+      &copy; 2025 <a href="https://markmixstudios.com/about" target="_blank">Markmix Studios Limited</a>. All rights reserved.
+    </p>
+  </footer>
+
+  <!-- Include Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <!-- Custom Script -->
+  <script src="script.js"></script>
 </body>
 </html>

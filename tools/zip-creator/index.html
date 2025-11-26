@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Standard Favicons -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-16x16.png' rel='icon' sizes='16x16' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-32x32.png' rel='icon' sizes='32x32' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-96x96.png' rel='icon' sizes='96x96' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-192x192.png' rel='icon' sizes='192x192' type='image/png'/>
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/web-app-manifest-512x512.png' rel='icon' sizes='512x512' type='image/png'/>
+
+  <!-- Apple Devices -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/apple-touch-icon.png' rel='apple-touch-icon' sizes='180x180'/>
+
+  <!-- Windows Tiles -->
+  <meta content='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon-144.png' name='msapplication-TileImage'/>
+  <meta content='#ffffff' name='msapplication-TileColor'/>
+
+  <!-- Fallback .ico -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/favicon.ico' rel='icon' type='image/x-icon'/>
+
+  <!-- Web Manifest for Progressive Web App Support -->
+  <link href='https://cdn.jsdelivr.net/gh/Markmix-Studios/msl-favicons/site.webmanifest' rel='manifest'/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markmix ZipFile Creator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Markmix ZipFile Creator</h1>
+            <p>Create compressed zip files from your files easily</p>
+        </header>
+
+        <div class="upload-area" id="uploadArea">
+            <i>📁</i>
+            <h2>Select Files to Compress</h2>
+            <p>Drag & drop files here or click to browse</p>
+            
+            <div class="filename-input">
+                <label for="zipName">Zip File Name:</label>
+                <input type="text" id="zipName" placeholder="Enter zip file name (without extension)">
+            </div>
+            
+            <div class="button-group">
+                <button class="browse-btn" id="browseBtn">Select Your Files</button>
+                <button class="create-btn" id="createBtn" disabled>Create ZipFile</button>
+                <button class="clear-btn" id="clearBtn" disabled>Clear Files</button>
+            </div>
+            
+            <input type="file" class="file-input" id="fileInput" multiple>
+            
+            <div class="file-list" id="fileList"></div>
+            
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                Zip file created successfully! <a href="#" id="downloadLink">Download Your File now</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 - Markmix Studios Limited. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://www.markmixstudios.com/tools/zip-extractor">Use ZipFile Extractor</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
